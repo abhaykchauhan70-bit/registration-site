@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin - Registrations</title>
+<style>
+*{box-sizing:border-box;font-family:system-ui,Segoe UI,Roboto} body{margin:0;background:#f6f7f9;color:#111}
+.header{background:#14213d;color:#fff;padding:18px 24px;display:flex;justify-content:space-between;align-items:center}
+.header h1{margin:0;font-size:18px}.header span{color:#9fe3d8;font-size:13px}
+.controls{padding:16px 24px;display:flex;gap:12px;flex-wrap:wrap}
+input{padding:10px 12px;border:1px solid #d0d5dd;border-radius:8px;min-width:260px}
+button{padding:10px 16px;border:0;border-radius:8px;background:#0f766e;color:#fff;font-weight:600;cursor:pointer}
+button.sec{background:#e4e7ec;color:#111} table{width:100%;border-collapse:collapse;background:#fff}
+th,td{padding:10px 12px;border-bottom:1px solid #eee;text-align:left;font-size:13px;white-space:nowrap}
+th{background:#f9fafb;position:sticky;top:0}.wrap{margin:0 24px 24px;background:#fff;border-radius:12px;overflow:auto;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+a.pdf{color:#0f766e;font-weight:700;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="header"><h1>Registrations</h1><span id="count">Loading...</span></div>
+<div class="controls">
+  <input id="search" placeholder="Search name, email, phone, course, city...">
+  <button onclick="exportCSV()">⬇ Export CSV</button>
+  <button class="sec" onclick="load()">↻ Refresh</button>
+</div>
+<div class="wrap">
+<table><thead><tr>
+<th>ID</th><th>Reg No</th><th>Full Name</th><th>Email</th><th>Phone</th><th>DOB</th><th>Gender</th><th>City</th><th>State</th><th>Course</th><th>Qualification</th><th>PDF</th>
+</tr></thead><tbody id="tbody"></tbody></table>
+</div>
+<script>
+const ADMIN_KEY='change-me';
+let all=[];
+async function load(){
+ const r=await fetch('/api/admin/registrations',{headers:{'x-admin-key':ADMIN_KEY}});
+ const data=await r.json(); all=data;
+ document.getElementById('count').textContent=data.length+' records';
+ render(data);
+}
+function render(data){
+ const q=document.getElementById('search').value.toLowerCase();
+ const f=data.filter(o=>!q||Object.values(o).join(' ').toLowerCase().includes(q));
+ document.getElementById('tbody').innerHTML=f.map(o=>`
+  <tr>
+   <td>${o.id}</td>
+   <td><b>${o.reg_no}</b></td>
+   <td>${o.full_name}</td>
+   <td>${o.email}</td>
+   <td>${o.phone}</td>
+   <td>${o.dob}</td>
+   <td>${o.gender}</td>
+   <td>${o.city}</td>
+   <td>${o.state}</td>
+   <td>${o.course}</td>
+   <td>${o.qualification}</td>
+   <td><a class="pdf" href="/api/registration/${o.reg_no}/pdf" target="_blank">PDF</a></td>
+  </tr>`).join('') || '<tr><td colspan=12>No data</td></tr>';
+}
+function exportCSV(){
+ if(!all.length) return alert('No data');
+ const cols=Object.keys(all[0]); const csv=[cols.join(',')].concat(all.map(r=>cols.map(c=>`"${String(r[c]||'').replace(/"/g,'""')}"`).join(','))).join('\n');
+ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='registrations.csv'; a.click();
+}
+document.getElementById('search').addEventListener('input',()=>render(all));
+load();
+</script>
+</body>
+</html>
