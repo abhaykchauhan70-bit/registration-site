@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "^4.19.2",
     "pdfkit": "^0.15.0",
+    "pg": "^8.23.1",
     "sqlite3": "^5.1.7"
   }
 }
