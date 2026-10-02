@@ -6,9 +6,9 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.19.2",
-    "pdfkit": "^0.15.0",
-    "pg": "^8.23.1",
-    "sqlite3": "^5.1.7"
+    "cors": "^2.8.6",
+    "express": "^4.22.3",
+    "pg": "^8.11.3",
+    "pdfkit": "^0.15.0"
   }
 }
