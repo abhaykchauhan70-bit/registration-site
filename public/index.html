@@ -3,45 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Student Registration Portal</title>
+<title>Register for the 2026 Programme</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <main class="layout">
   <aside class="intro">
-    <h1>Student Registration Portal</h1>
-    <p>It takes about 3 minutes. You will get a registration number instantly.</p>
+    <h1>Register for the 2026 Programme</h1>
+    <p>It takes about three minutes. You will get a registration number and a PDF copy to download once you submit.</p>
     <ul>
-      <li>Keep your phone number and emergency contact ready</li>
+      <li>Keep your phone number and an emergency contact ready</li>
       <li>Use an email address you check regularly</li>
       <li>Each email can register only once</li>
     </ul>
   </aside>
 
   <section class="panel">
-    <form id="regForm">
-      <input type="text" name="fullName" placeholder="Full Name *" required pattern="[A-Za-z ]{3,50}" title="Min 3 letters">
-      <input type="email" name="email" placeholder="Email *" required>
-      <input type="tel" name="phone" placeholder="Phone (10 digits) *" required pattern="[0-9]{10}" title="Enter 10 digit number">
-      <input type="date" name="dob" required>
-      <select name="gender" required>
-        <option value="">Select Gender</option>
-        <option>Male</option><option>Female</option><option>Other</option>
-      </select>
-      <input type="text" name="city" placeholder="City *" required>
-      <input type="text" name="state" placeholder="State *" required>
-      <select name="course" required>
-        <option value="">Select Course</option>
-        <option>BCA</option><option>MCA</option><option>B.Tech</option><option>MBA</option>
-      </select>
-      <select name="qualification" required>
-        <option value="">Qualification</option>
-        <option>12th</option><option>Graduation</option><option>Post Graduation</option>
-      </select>
-      <button type="submit">Submit Registration</button>
+    <form id="form" novalidate>
+      <fieldset>
+        <legend>Personal details</legend>
+        <div class="grid">
+          <label class="full">Full name<input name="full_name" autocomplete="name" required></label>
+          <label>Email<input type="email" name="email" autocomplete="email" required></label>
+          <label>Phone<input type="tel" name="phone" autocomplete="tel" placeholder="+91 98765 43210" required></label>
+          <label>Date of birth<input type="date" name="dob" required></label>
+          <label>Gender
+            <select name="gender" required><option value="">Select</option><option>Female</option><option>Male</option><option>Other</option><option>Prefer not to say</option></select>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Address</legend>
+        <div class="grid">
+          <label class="full">Street address<textarea name="address" rows="2" required></textarea></label>
+          <label>City<input name="city" required></label>
+          <label>State<input name="state" required></label>
+          <label>PIN / ZIP code<input name="pincode" required></label>
+          <label>Country<input name="country" value="India" required></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Education and programme</legend>
+        <div class="grid">
+          <label>Highest qualification
+            <select name="qualification" required><option value="">Select</option><option>High school</option><option>Diploma</option><option>Bachelor's degree</option><option>Master's degree</option><option>Doctorate</option></select>
+          </label>
+          <label>Occupation (optional)<input name="occupation"></label>
+          <label class="full">Programme
+            <select name="course" required><option value="">Select</option><option>Web Development</option><option>Data Analytics</option><option>Digital Marketing</option><option>Graphic Design</option><option>Spoken English</option></select>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Emergency contact</legend>
+        <div class="grid">
+          <label>Contact name<input name="emergency_name" required></label>
+          <label>Contact phone<input type="tel" name="emergency_phone" required></label>
+        </div>
+      </fieldset>
+
+      <label class="check"><input type="checkbox" name="consent"> I confirm that the details above are correct.</label>
+      <p class="error" id="consent-error"></p>
+      <p class="error" id="form-error" role="alert"></p>
+      <button type="submit" id="submit">Submit registration</button>
     </form>
-    <p id="msg"></p>
+
+    <div id="success" hidden>
+      <div class="tick">✓</div>
+      <h2>You are registered</h2>
+      <p>Your registration number</p>
+      <div class="regno" id="regno"></div>
+      <a class="btn" id="pdf" href="#">Download PDF</a>
+      <button type="button" class="ghost" onclick="location.reload()">Register someone else</button>
+    </div>
   </section>
 </main>
 <script src="script.js"></script>
