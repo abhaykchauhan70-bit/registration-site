@@ -1,100 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Registrations - Admin</title>
-  <style>
-    body{font-family:Arial;padding:20px;background:#f5f5f5}
-   .header{background:#1e3a8a;color:white;padding:15px;display:flex;justify-content:space-between;align-items:center}
-    table{width:100%;border-collapse:collapse;background:white;margin-top:15px}
-    th,td{border:1px solid #ddd;padding:8px;text-align:left;font-size:14px}
-    th{background:#1e3a8a;color:white}
-    input{padding:8px;width:300px}
-    button{padding:8px 15px;background:#1e3a8a;color:white;border:none;cursor:pointer;border-radius:4px}
-  </style>
-</head>
-<body>
-<div class="header">
-  <h3>Registrations</h3>
-  <div>
-    <button onclick="exportCSV()">Export CSV</button>
-    <button onclick="loadData()">Refresh</button>
-  </div>
-</div>
-
-<div style="margin-top:15px">
-  <input type="text" id="search" placeholder="Search name, email, phone, course, city..." onkeyup="filterData()">
-</div>
-
-<table id="regTable">
-  <thead>
-    <tr>
-      <th>ID</th><th>Reg No</th><th>Full Name</th><th>Email</th><th>Phone</th><th>DOB</th><th>Gender</th><th>City</th><th>State</th><th>Course</th><th>Qualification</th>
-    </tr>
-  </thead>
-  <tbody id="tbody">
-    <tr><td colspan="11">Loading...</td></tr>
-  </tbody>
-</table>
-
 <script>
 let allData = [];
+let ADMIN_KEY = localStorage.getItem('adminKey');
 
 async function loadData(){
+  if(!ADMIN_KEY){
+    ADMIN_KEY = prompt("Enter Admin Key:");
+    if(!ADMIN_KEY) return;
+    localStorage.setItem('adminKey', ADMIN_KEY);
+  }
   try{
-    const res = await fetch('/api/registrations?key=ADMIN123');
+    const res = await fetch(`/api/registrations?key=${ADMIN_KEY}`);
+    if(res.status === 401){
+      alert("Wrong Key! Try again");
+      localStorage.removeItem('adminKey');
+      ADMIN_KEY = null;
+      return loadData();
+    }
     const data = await res.json();
-    console.log('Data loaded:', data);
     allData = data;
     renderTable(allData);
   }catch(e){
     document.getElementById('tbody').innerHTML = `<tr><td colspan="11">Error: ${e.message}</td></tr>`;
   }
 }
-
-function renderTable(data){
-  const tbody = document.getElementById('tbody');
-  if(!data || data.length===0){
-    tbody.innerHTML = `<tr><td colspan="11">No data</td></tr>`;
-    return;
-  }
-  tbody.innerHTML = data.map(row => `
-    <tr>
-      <td>${row.id}</td>
-      <td>${row.reg_no}</td>
-      <td>${row.full_name}</td>
-      <td>${row.email}</td>
-      <td>${row.phone}</td>
-      <td>${row.dob || ''}</td>
-      <td>${row.gender || ''}</td>
-      <td>${row.city || ''}</td>
-      <td>${row.state || ''}</td>
-      <td>${row.course || ''}</td>
-      <td>${row.qualification || ''}</td>
-    </tr>
-  `).join('');
-}
-
-function filterData(){
-  const q = document.getElementById('search').value.toLowerCase();
-  const filtered = allData.filter(r =>
-    JSON.stringify(r).toLowerCase().includes(q)
-  );
-  renderTable(filtered);
-}
-
-function exportCSV(){
-  let csv = "ID,Reg No,Full Name,Email,Phone,DOB,Gender,City,State,Course,Qualification\n";
-  allData.forEach(r=>{
-    csv += `${r.id},${r.reg_no},${r.full_name},${r.email},${r.phone},${r.dob},${r.gender},${r.city},${r.state},${r.course},${r.qualification}\n`;
-  });
-  const blob = new Blob([csv], {type:'text/csv'});
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href=url; a.download='registrations.csv'; a.click();
-}
-
-// Load on page open
-loadData();
+// ... baaki tera same renderTable, filterData, exportCSV
 </script>
-</body>
-</html>
