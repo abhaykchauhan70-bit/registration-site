@@ -3,53 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Student Registration Portal - 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<title>Student Registration Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="bg-blob blob1"></div>
-<div class="bg-blob blob2"></div>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
 
-<div class="container">
+<div class="wrap">
   <div class="left">
-    <div class="badge">🔥 Admissions Open 2026</div>
-    <h1>Student<br><span>Registration</span><br>Portal</h1>
-    <p class="sub">Fast, secure, and built for 5 lakh+ students. Get your Reg No. in 30 seconds.</p>
+    <span class="pill">🔥 Admissions Open 2026</span>
+    <h1>Student<br>Registration<br><em>Portal</em></h1>
+    <p class="sub">Fast, secure, built for 5 lakh+ students. Get Reg No. in 30 seconds.</p>
     
-    <div class="features">
-      <div class="f"><span>⚡</span><div><b>30 Sec Process</b><p>Instant PDF + Reg No</p></div></div>
-      <div class="f"><span>🔒</span><div><b>Secure & Encrypted</b><p>Your data is safe with us</p></div></div>
-      <div class="f"><span>📱</span><div><b>One Email = One Entry</b><p>No spam, no duplicate</p></div></div>
-    </div>
+    <div class="card-mini"><b>⚡ 30 Sec Process</b><span>Instant PDF + Reg No</span></div>
+    <div class="card-mini"><b>🔒 Secure & Encrypted</b><span>Your data is safe</span></div>
+    <div class="card-mini"><b>📧 One Email = One Entry</b><span>No spam, no duplicate</span></div>
   </div>
 
-  <div class="right glass">
+  <div class="right">
     <h2>Create your profile</h2>
-    <p class="small">All fields marked * are mandatory</p>
-    
+    <p class="hint">All fields marked * are mandatory</p>
+
     <form id="regForm">
-      <div class="grid2">
-        <div class="input-group"><input type="text" name="fullName" required placeholder=" "><label>Full Name *</label></div>
-        <div class="input-group"><input type="email" name="email" required placeholder=" "><label>Email *</label></div>
+      <div class="row">
+        <div class="field"><input type="text" name="fullName" required placeholder="Full Name *"><small></small></div>
+        <div class="field"><input type="email" name="email" required placeholder="Email *"><small></small></div>
       </div>
-      <div class="grid2">
-        <div class="input-group"><input type="tel" name="phone" required placeholder=" " pattern="[0-9]{10}"><label>Phone (10 digits) *</label></div>
-        <div class="input-group"><input type="date" name="dob" required placeholder=" "><label>DOB *</label></div>
+      <div class="row">
+        <div class="field"><input type="tel" name="phone" required placeholder="Phone (10 digits) *" pattern="[0-9]{10}"><small></small></div>
+        <div class="field"><input type="date" name="dob" required><small></small></div>
       </div>
-      <div class="grid2">
-        <div class="input-group"><select name="gender" required><option value=""></option><option>Male</option><option>Female</option><option>Other</option></select><label>Gender *</label></div>
-        <div class="input-group"><input type="text" name="city" required placeholder=" "><label>City *</label></div>
+      <div class="row">
+        <div class="field">
+          <select name="gender" required><option value="">Select Gender *</option><option>Male</option><option>Female</option><option>Other</option></select>
+        </div>
+        <div class="field"><input type="text" name="city" required placeholder="City *"></div>
       </div>
-      <div class="grid2">
-        <div class="input-group"><input type="text" name="state" required placeholder=" "><label>State *</label></div>
-        <div class="input-group"><select name="course" required><option value=""></option><option>BCA</option><option>MCA</option><option>B.Tech</option><option>MBA</option><option>B.Sc</option></select><label>Course *</label></div>
+      <div class="row">
+        <div class="field"><input type="text" name="state" required placeholder="State *"></div>
+        <div class="field">
+          <select name="course" required><option value="">Select Course *</option><option>BCA</option><option>MCA</option><option>B.Tech</option><option>MBA</option><option>B.Sc</option></select>
+        </div>
       </div>
-      <div class="input-group"><select name="qualification" required><option value=""></option><option>12th</option><option>Graduation</option><option>Post Graduation</option></select><label>Highest Qualification *</label></div>
-      
-      <button type="submit" id="btn"><span>Submit Registration</span><i>→</i></button>
+      <div class="field full"><select name="qualification" required><option value="">Highest Qualification *</option><option>12th</option><option>Graduation</option><option>Post Graduation</option></select></div>
+
+      <button type="submit" id="submitBtn">Submit Registration →</button>
       <p id="msg"></p>
     </form>
+
+    <div id="success" hidden>
+      <div class="tick">✓</div>
+      <h3>Registered Successfully!</h3>
+      <div class="regno" id="regno">REG-XXXX</div>
+      <br><a class="btn" href="/">Register Another</a>
+    </div>
   </div>
 </div>
 <script src="script.js"></script>
