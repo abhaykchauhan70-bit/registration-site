@@ -1,82 +1,70 @@
-const form = document.getElementById('regForm');
-const msg = document.getElementById('msg');
-const btn = document.getElementById('submitBtn');
-const successBox = document.getElementById('success');
-const regnoEl = document.getElementById('regno');
+const form = document.getElementById('form');
+const btn = document.getElementById('submit');
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
+function showErrors(errors) {
+  form.querySelectorAll('small.msg').forEach(n => n.remove());
+  form.querySelectorAll('.invalid').forEach(n => n.classList.remove('invalid'));
+  document.getElementById('consent-error').textContent = errors.consent || '';
+  let first = null;
+  for (const [name, msg] of Object.entries(errors)) {
+    const el = form.elements[name];
+    if (!el || name === 'consent') continue;
+    el.classList.add('invalid');
+    const s = document.createElement('small');
+    s.className = 'msg';
+    s.textContent = msg;
+    el.parentElement.appendChild(s);
+    first = first || el;
+  }
+  if (first) first.focus();
+}
+
+function clientCheck(data) {
+  const e = {};
+  form.querySelectorAll('[required]').forEach(el => {
+    if (!el.value.trim()) e[el.name] = 'This field is required';
+  });
+  if (!e.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) e.email = 'Enter a valid email address';
+  ['phone', 'emergency_phone'].forEach(k => {
+    if (!e[k] && !/^\+?[0-9 ]{10,15}$/.test(data[k])) e[k] = 'Enter 10–15 digits';
+  });
+  if (!data.consent) e.consent = 'Please confirm the declaration';
+  return e;
+}
+
+form.addEventListener('submit', async ev => {
+  ev.preventDefault();
+  document.getElementById('form-error').textContent = '';
+  const data = Object.fromEntries(new FormData(form));
+  data.consent = form.elements.consent.checked;
+
+  const errors = clientCheck(data);
+  showErrors(errors);
+  if (Object.keys(errors).length) return;
+
   btn.disabled = true;
-  btn.textContent = 'Submitting...';
-  msg.textContent = '';
-  msg.style.color = '#667085';
-
-  const fd = new FormData(form);
-  
-  // Backend jo naam expect karta hai wahi bhej rahe hain
-  const payload = {
-    fullName: fd.get('fullName')?.trim(),
-    email: fd.get('email')?.trim(),
-    phone: fd.get('phone')?.trim(),
-    dob: fd.get('dob'),
-    gender: fd.get('gender'),
-    city: fd.get('city')?.trim(),
-    state: fd.get('state')?.trim(),
-    course: fd.get('course'),
-    qualification: fd.get('qualification')
-  };
-
-  // Basic validation
-  if(!payload.fullName || payload.fullName.length < 3){
-    msg.textContent = 'Full name me kam se kam 3 letters likho';
-    msg.style.color = 'red';
-    btn.disabled = false;
-    btn.textContent = 'Submit Registration →';
-    return;
-  }
-  if(!/^[0-9]{10}$/.test(payload.phone)){
-    msg.textContent = 'Phone 10 digits ka hona chahiye';
-    msg.style.color = 'red';
-    btn.disabled = false;
-    btn.textContent = 'Submit Registration →';
-    return;
-  }
-
+  btn.textContent = 'Saving…';
   try {
     const res = await fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(data),
     });
-
-    const data = await res.json();
-    console.log('Server response:', data);
-
+    const out = await res.json();
     if (!res.ok) {
-      throw new Error(data.error || data.message || 'Failed to register');
+      if (out.errors) showErrors(out.errors);
+      else document.getElementById('form-error').textContent = out.error || 'Something went wrong.';
+      return;
     }
-
-    // Success
-    form.style.display = 'none';
-    document.querySelector('.hint').style.display = 'none';
-    successBox.hidden = false;
-    if(regnoEl && data.reg_no){
-      regnoEl.textContent = data.reg_no;
-    } else if(regnoEl && data.regNo){
-      regnoEl.textContent = data.regNo;
-    } else if(regnoEl){
-      regnoEl.textContent = data.reg_no || 'REG-SAVED';
-    }
-
-  } catch (err) {
-    console.error(err);
-    msg.textContent = err.message;
-    if(err.message.includes('already') || err.message.includes('duplicate')){
-      msg.textContent = 'Is email se pehle se registration ho chuka hai!';
-    }
-    msg.style.color = 'red';
+    form.hidden = true;
+    document.getElementById('regno').textContent = out.reg_no;
+    document.getElementById('pdf').href = `/api/registration/${out.reg_no}/pdf`;
+    document.getElementById('success').hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch {
+    document.getElementById('form-error').textContent = 'Cannot reach the server. Check your connection and try again.';
+  } finally {
     btn.disabled = false;
-    btn.textContent = 'Submit Registration →';
+    btn.textContent = 'Submit registration';
   }
 });

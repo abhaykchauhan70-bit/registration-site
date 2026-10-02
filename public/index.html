@@ -4,63 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Student Registration Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="blob b1"></div>
-<div class="blob b2"></div>
+<main class="layout">
+  <aside class="intro">
+    <h1>Student Registration Portal</h1>
+    <p>It takes about 3 minutes. You will get a registration number instantly.</p>
+    <ul>
+      <li>Keep your phone number and emergency contact ready</li>
+      <li>Use an email address you check regularly</li>
+      <li>Each email can register only once</li>
+    </ul>
+  </aside>
 
-<div class="wrap">
-  <div class="left">
-    <span class="pill">🔥 Admissions Open 2026</span>
-    <h1>Student<br>Registration<br><em>Portal</em></h1>
-    <p class="sub">Fast, secure, built for 5 lakh+ students. Get Reg No. in 30 seconds.</p>
-    
-    <div class="card-mini"><b>⚡ 30 Sec Process</b><span>Instant PDF + Reg No</span></div>
-    <div class="card-mini"><b>🔒 Secure & Encrypted</b><span>Your data is safe</span></div>
-    <div class="card-mini"><b>📧 One Email = One Entry</b><span>No spam, no duplicate</span></div>
-  </div>
-
-  <div class="right">
-    <h2>Create your profile</h2>
-    <p class="hint">All fields marked * are mandatory</p>
-
+  <section class="panel">
     <form id="regForm">
-      <div class="row">
-        <div class="field"><input type="text" name="fullName" required placeholder="Full Name *"><small></small></div>
-        <div class="field"><input type="email" name="email" required placeholder="Email *"><small></small></div>
-      </div>
-      <div class="row">
-        <div class="field"><input type="tel" name="phone" required placeholder="Phone (10 digits) *" pattern="[0-9]{10}"><small></small></div>
-        <div class="field"><input type="date" name="dob" required><small></small></div>
-      </div>
-      <div class="row">
-        <div class="field">
-          <select name="gender" required><option value="">Select Gender *</option><option>Male</option><option>Female</option><option>Other</option></select>
-        </div>
-        <div class="field"><input type="text" name="city" required placeholder="City *"></div>
-      </div>
-      <div class="row">
-        <div class="field"><input type="text" name="state" required placeholder="State *"></div>
-        <div class="field">
-          <select name="course" required><option value="">Select Course *</option><option>BCA</option><option>MCA</option><option>B.Tech</option><option>MBA</option><option>B.Sc</option></select>
-        </div>
-      </div>
-      <div class="field full"><select name="qualification" required><option value="">Highest Qualification *</option><option>12th</option><option>Graduation</option><option>Post Graduation</option></select></div>
-
-      <button type="submit" id="submitBtn">Submit Registration →</button>
-      <p id="msg"></p>
+      <input type="text" name="fullName" placeholder="Full Name *" required pattern="[A-Za-z ]{3,50}" title="Min 3 letters">
+      <input type="email" name="email" placeholder="Email *" required>
+      <input type="tel" name="phone" placeholder="Phone (10 digits) *" required pattern="[0-9]{10}" title="Enter 10 digit number">
+      <input type="date" name="dob" required>
+      <select name="gender" required>
+        <option value="">Select Gender</option>
+        <option>Male</option><option>Female</option><option>Other</option>
+      </select>
+      <input type="text" name="city" placeholder="City *" required>
+      <input type="text" name="state" placeholder="State *" required>
+      <select name="course" required>
+        <option value="">Select Course</option>
+        <option>BCA</option><option>MCA</option><option>B.Tech</option><option>MBA</option>
+      </select>
+      <select name="qualification" required>
+        <option value="">Qualification</option>
+        <option>12th</option><option>Graduation</option><option>Post Graduation</option>
+      </select>
+      <button type="submit">Submit Registration</button>
     </form>
-
-    <div id="success" hidden>
-      <div class="tick">✓</div>
-      <h3>Registered Successfully!</h3>
-      <div class="regno" id="regno">REG-XXXX</div>
-      <br><a class="btn" href="/">Register Another</a>
-    </div>
-  </div>
-</div>
+    <p id="msg"></p>
+  </section>
+</main>
 <script src="script.js"></script>
 </body>
 </html>
