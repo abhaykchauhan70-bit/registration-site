@@ -3,47 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Student Registration Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Student Registration Portal - 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="layout">
-  <aside class="intro">
-    <h1>Student Registration Portal</h1>
-    <p>It takes about 3 minutes. You will get a registration number instantly.</p>
-    <ul>
-      <li>Keep your phone number and emergency contact ready</li>
-      <li>Use an email address you check regularly</li>
-      <li>Each email can register only once</li>
-    </ul>
-  </aside>
+<div class="bg-blob blob1"></div>
+<div class="bg-blob blob2"></div>
 
-  <section class="panel">
+<div class="container">
+  <div class="left">
+    <div class="badge">🔥 Admissions Open 2026</div>
+    <h1>Student<br><span>Registration</span><br>Portal</h1>
+    <p class="sub">Fast, secure, and built for 5 lakh+ students. Get your Reg No. in 30 seconds.</p>
+    
+    <div class="features">
+      <div class="f"><span>⚡</span><div><b>30 Sec Process</b><p>Instant PDF + Reg No</p></div></div>
+      <div class="f"><span>🔒</span><div><b>Secure & Encrypted</b><p>Your data is safe with us</p></div></div>
+      <div class="f"><span>📱</span><div><b>One Email = One Entry</b><p>No spam, no duplicate</p></div></div>
+    </div>
+  </div>
+
+  <div class="right glass">
+    <h2>Create your profile</h2>
+    <p class="small">All fields marked * are mandatory</p>
+    
     <form id="regForm">
-      <input type="text" name="fullName" placeholder="Full Name *" required pattern="[A-Za-z ]{3,50}" title="Min 3 letters">
-      <input type="email" name="email" placeholder="Email *" required>
-      <input type="tel" name="phone" placeholder="Phone (10 digits) *" required pattern="[0-9]{10}" title="Enter 10 digit number">
-      <input type="date" name="dob" required>
-      <select name="gender" required>
-        <option value="">Select Gender</option>
-        <option>Male</option><option>Female</option><option>Other</option>
-      </select>
-      <input type="text" name="city" placeholder="City *" required>
-      <input type="text" name="state" placeholder="State *" required>
-      <select name="course" required>
-        <option value="">Select Course</option>
-        <option>BCA</option><option>MCA</option><option>B.Tech</option><option>MBA</option>
-      </select>
-      <select name="qualification" required>
-        <option value="">Qualification</option>
-        <option>12th</option><option>Graduation</option><option>Post Graduation</option>
-      </select>
-      <button type="submit">Submit Registration</button>
+      <div class="grid2">
+        <div class="input-group"><input type="text" name="fullName" required placeholder=" "><label>Full Name *</label></div>
+        <div class="input-group"><input type="email" name="email" required placeholder=" "><label>Email *</label></div>
+      </div>
+      <div class="grid2">
+        <div class="input-group"><input type="tel" name="phone" required placeholder=" " pattern="[0-9]{10}"><label>Phone (10 digits) *</label></div>
+        <div class="input-group"><input type="date" name="dob" required placeholder=" "><label>DOB *</label></div>
+      </div>
+      <div class="grid2">
+        <div class="input-group"><select name="gender" required><option value=""></option><option>Male</option><option>Female</option><option>Other</option></select><label>Gender *</label></div>
+        <div class="input-group"><input type="text" name="city" required placeholder=" "><label>City *</label></div>
+      </div>
+      <div class="grid2">
+        <div class="input-group"><input type="text" name="state" required placeholder=" "><label>State *</label></div>
+        <div class="input-group"><select name="course" required><option value=""></option><option>BCA</option><option>MCA</option><option>B.Tech</option><option>MBA</option><option>B.Sc</option></select><label>Course *</label></div>
+      </div>
+      <div class="input-group"><select name="qualification" required><option value=""></option><option>12th</option><option>Graduation</option><option>Post Graduation</option></select><label>Highest Qualification *</label></div>
+      
+      <button type="submit" id="btn"><span>Submit Registration</span><i>→</i></button>
+      <p id="msg"></p>
     </form>
-    <p id="msg"></p>
-  </section>
-</main>
+  </div>
+</div>
 <script src="script.js"></script>
 </body>
 </html>
