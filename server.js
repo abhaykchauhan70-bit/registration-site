@@ -90,7 +90,7 @@ app.post('/api/register', async (req, res) => {
 app.get('/api/registrations', async (req, res) => {
   try {
     const adminKey = req.query.key;
-    if (adminKey!== 'ADMIN123') {
+    if (adminKey!== 'Abhay@2027') {
       return res.status(401).json({ error: 'Unauthorized - Wrong Admin Key' });
     }
 
