@@ -6,7 +6,7 @@ A complete Registration System for 2026 Programme. Users get instant Registratio
 
 ### 🌐 Live
 **Main Site:** https://registration-site-gi9s.onrender.com/
-**Admin Dashboard:** https://registration-site-gi9s.onrender.com/admin
+Admin Dashboard: Protected (private access)
 
 ### ✨ Features
 - 3-min registration flow
